@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:week_5_task_1/auth_user.dart';
+import 'package:week_5_task_1/main.dart';
 import 'package:week_5_task_1/sign_up_page.dart';
 import 'package:week_5_task_1/text_style.dart';
 
@@ -50,6 +51,15 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future signIn() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(
+          color: Colors.blue,
+        ),
+      ),
+    );
     if (_key.currentState!.validate()) {
       try {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -65,6 +75,7 @@ class _LoginPageState extends State<LoginPage> {
           errorMessage = 'Invalid Password';
         }
       }
+      navigatorKey.currentState!.popUntil((route) => route.isFirst);
       setState(() {});
     }
   }
@@ -236,7 +247,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         child: Center(
                           child: Text(
-                            'Sign up',
+                            'Sign in',
                             style: GoogleFonts.montserrat(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,

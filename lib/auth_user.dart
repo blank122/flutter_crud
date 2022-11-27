@@ -1,4 +1,41 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+class AuthUser {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<String> signUpUser({
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String password,
+  }) async {
+    String errMessage = "Some error occured";
+
+    try {
+      if (firstName.isNotEmpty ||
+          lastName.isNotEmpty ||
+          email.isNotEmpty ||
+          password.isNotEmpty) {
+        UserCredential credential = await _auth.createUserWithEmailAndPassword(
+            email: email, password: password);
+        print(credential.user!.uid);
+
+        await _firestore.collection('users').doc(credential.user!.uid).set({
+          'uid': credential.user!.uid,
+          'firstName': firstName,
+          'lastName': lastName,
+          'email': email,
+          'password': password
+        });
+        errMessage = "Success";
+      }
+    } catch (err) {}
+    return errMessage;
+  }
+}
 
 String? validateEmail(String? formEmail) {
   if (formEmail == null || formEmail.isEmpty)
