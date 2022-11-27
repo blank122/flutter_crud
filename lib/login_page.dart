@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:week_5_task_1/auth_user.dart';
+import 'package:week_5_task_1/sign_up_page.dart';
 import 'package:week_5_task_1/text_style.dart';
 
 class LoginPage extends StatefulWidget {
@@ -252,6 +253,36 @@ class _LoginPageState extends State<LoginPage> {
                   Text(
                     errorMessage,
                     style: errorTextStyle,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Not a member?',
+                        style: mainArticleStyle,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SignUpPage(),
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 30.0),
+                          child: Text(
+                            'Create an Account instead',
+                            style: GoogleFonts.montserrat(
+                              fontSize: 20,
+                              fontStyle: FontStyle.italic,
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
